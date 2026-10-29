@@ -1,6 +1,7 @@
 node_modules/
 .env
-
-public/uploads/*
-!public/uploads/.gitkeep
+.env.*
+!.env.example
+dist/
+coverage/
 data/db.json
