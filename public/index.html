@@ -1,0 +1,337 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f7fb">
+  <meta name="description" content="Socially — share moments, meet people, and stay connected.">
+
+  <title>Socially — Your little corner</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+
+<body>
+<div class="shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <a class="brand" href="#" data-view="feed"><b>s</b> socially<span>.</span></a>
+
+    <small class="label">YOUR SPACE</small>
+
+    <nav>
+      <button class="nav active" data-view="feed">⌂ <span>Home feed</span></button>
+      <button class="nav" data-view="discover">⌕ <span>Discover people</span></button>
+      <button class="nav" data-view="profile">♙ <span>My profile</span></button>
+    </nav>
+
+    <div class="side-note">
+      <div>✦</div>
+      <strong>Your people, your pace.</strong>
+      <p>A little more connection, a little less noise.</p>
+    </div>
+
+    <div class="side-bottom" id="sideAccount">
+      <button class="nav" id="sideAuth">↗ <span>Sign in</span></button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main>
+    <header class="topbar">
+      <div>
+        <small class="eyebrow" id="eyebrow">YOUR COMMUNITY</small>
+        <h1 id="pageTitle">Hello.... <span>👋</span></h1>
+      </div>
+
+      <div class="top-actions">
+        <label class="search">
+          ⌕
+          <input id="search" type="search" placeholder="Search people or posts..." aria-label="Search">
+        </label>
+        <button class="top-avatar" id="topAvatar" aria-label="Open profile">?</button>
+      </div>
+    </header>
+
+    <div class="mobile-tabs">
+      <button class="active" data-view="feed">Home</button>
+      <button data-view="discover">Discover</button>
+      <button data-view="profile">Profile</button>
+    </div>
+
+    <div class="layout">
+
+      <!-- Feed column -->
+      <section class="feed">
+
+        <!-- Post composer -->
+        <section id="composer" class="card composer">
+          <div class="compose-row">
+            <div class="avatar" id="composerAvatar">S</div>
+            <textarea id="postText" maxlength="1000" placeholder="What's on your mind? Share a little moment…" aria-label="Write a post"></textarea>
+          </div>
+
+          <div class="compose-bottom">
+            <label class="link-button upload-label" for="imageFile">▧ Upload image</label>
+            <input id="imageFile" class="file-input" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+            <span id="charCount">0 / 1000</span>
+            <button class="primary" id="publish">Share post ↗</button>
+          </div>
+
+          <div id="imagePreviewRow" class="image-preview-row" hidden>
+            <img id="imagePreview" alt="Selected image preview">
+            <div>
+              <b id="imageFileName">Selected image</b>
+              <small>Ready to upload with your post</small>
+            </div>
+            <button type="button" id="clearImage" aria-label="Remove selected image">×</button>
+          </div>
+
+          <p class="upload-hint">JPG, PNG, WEBP or GIF · up to 5 MB</p>
+        </section>
+
+        <!-- NEW: STORIES SECTION -->
+        <section class="card stories-section" id="storiesSection">
+
+          <div class="stories-heading">
+            <div>
+              <h2>Stories <span>✦</span></h2>
+              <p>Little moments, gone in 24 hours.</p>
+            </div>
+
+            <button type="button" id="addStoryBtn" class="add-story-btn">
+              <span>＋</span> Add story
+            </button>
+          </div>
+
+          <!-- Hidden file picker -->
+          <input
+            type="file"
+            id="storyFileInput"
+            class="file-input"
+            accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm"
+            hidden
+          >
+
+          <!-- Optional story caption -->
+          <div id="storyCaptionArea" class="story-caption-area" hidden>
+            <label for="storyCaption">Add a caption</label>
+            <input
+              type="text"
+              id="storyCaption"
+              maxlength="150"
+              placeholder="Write something about this moment..."
+            >
+
+            <div id="storyPreviewBox" class="story-preview-box">
+              <img id="storyImagePreview" alt="Story preview" hidden>
+              <video id="storyVideoPreview" controls playsinline hidden></video>
+            </div>
+
+            <div class="story-form-actions">
+              <button type="button" id="cancelStoryBtn" class="story-cancel-btn">Cancel</button>
+              <button type="button" id="uploadStoryBtn" class="primary">Share story ↗</button>
+            </div>
+
+            <p id="storyUploadError" class="story-error" hidden></p>
+          </div>
+
+          <!-- Stories are inserted here by app.js -->
+          <div id="storiesList" class="stories-list">
+            <p class="stories-loading">Loading stories...</p>
+          </div>
+        </section>
+        <!-- END STORIES SECTION -->
+
+        <!-- Feed heading -->
+        <div class="feed-title">
+          <div>
+            <h2 id="feedHeading">Your feed</h2>
+            <p id="feedSub">Fresh moments from your community</p>
+          </div>
+
+          <select id="sort">
+            <option value="latest">Latest</option>
+            <option value="popular">Popular</option>
+          </select>
+        </div>
+
+        <div id="feedList">
+          <div class="loading card">Gathering your community…</div>
+        </div>
+
+        <div class="empty card" id="empty" hidden>
+          <div>✦</div>
+          <h3>It's quiet in here</h3>
+          <p>Try another search, or be the first to share a moment.</p>
+          <button class="primary" id="emptyAction">Create a post</button>
+        </div>
+
+      </section>
+
+      <!-- Right sidebar -->
+      <aside class="right">
+
+        <section class="hero">
+          <small>A SPACE TO BE YOU</small>
+          <h2>Small moments.<br><em>Real connections.</em></h2>
+          <p>Find your people and share what matters.</p>
+          <button id="explore">Let's explore →</button>
+          <i>✳</i>
+        </section>
+
+        <section>
+          <div class="section-title">
+            <div>
+              <h3>People to know</h3>
+              <p>Good people, one follow away</p>
+            </div>
+            <button class="see-all" data-view="discover">See all ↗</button>
+          </div>
+
+          <div id="suggestions" class="suggestions">
+            <p class="muted">Finding people…</p>
+          </div>
+        </section>
+
+        <section class="kind-note">
+          <b>♡</b>
+          <div>
+            <strong>Make someone's day</strong>
+            <p>A kind comment can go a long way. Keep it thoughtful, keep it you.</p>
+          </div>
+        </section>
+
+        <footer>
+          About · Community guidelines · Privacy<br>
+          <span>Made for connection, not comparison. © 2026 Socially</span>
+        </footer>
+
+      </aside>
+    </div>
+  </main>
+</div>
+
+<!-- Story viewer modal -->
+<div class="backdrop" id="storyViewerBackdrop" hidden>
+  <section class="story-viewer" role="dialog" aria-modal="true" aria-label="Story viewer">
+
+    <button type="button" id="closeStoryViewer" class="story-viewer-close" aria-label="Close story">×</button>
+
+    <div class="story-viewer-progress">
+      <div id="storyProgressBar"></div>
+    </div>
+
+    <div class="story-viewer-user">
+      <div id="storyViewerAvatar" class="story-viewer-avatar">S</div>
+      <div>
+        <strong id="storyViewerName">User</strong>
+        <small id="storyViewerTime">Just now</small>
+      </div>
+    </div>
+
+    <button type="button" id="previousStoryBtn" class="story-nav story-nav-prev" aria-label="Previous story">‹</button>
+
+    <div id="storyViewerMedia" class="story-viewer-media"></div>
+
+    <button type="button" id="nextStoryBtn" class="story-nav story-nav-next" aria-label="Next story">›</button>
+
+    <p id="storyViewerCaption" class="story-viewer-caption"></p>
+
+    <button
+  type="button"
+  id="deleteStoryBtn"
+  class="delete-content-btn"
+  hidden
+>
+  🗑️ Delete Story
+</button>
+
+  </section>
+</div>
+
+<!-- Toast notifications -->
+<div id="toast" class="toast-region" aria-live="polite"></div>
+
+<!-- Authentication modal -->
+<div class="backdrop" id="authBackdrop" hidden>
+  <section class="modal card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button class="close" id="closeAuth">×</button>
+    <div class="modal-logo">s<span>.</span></div>
+    <h2 id="authTitle">Welcome to your corner</h2>
+    <p id="authSub" class="muted">Sign in to share your moments.</p>
+
+    <div class="auth-tabs">
+      <button class="selected" data-mode="login">Sign in</button>
+      <button data-mode="register">Create account</button>
+    </div>
+
+    <form id="authForm">
+      <div class="field" id="nameField" hidden>
+        <label for="name">Your name</label>
+        <input id="name" autocomplete="name" placeholder="Alex Morgan">
+      </div>
+
+      <div class="field" id="usernameField" hidden>
+        <label for="username">Username</label>
+        <input id="username" autocomplete="username" placeholder="alexmorgan">
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" type="email" required autocomplete="email" placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters">
+      </div>
+
+      <p id="authError" class="error" hidden></p>
+      <button class="primary wide" id="authSubmit">Sign in ↗</button>
+    </form>
+
+    <p class="demo">✦ Demo: <b>demo@socially.dev</b> / <b>Demo123!</b></p>
+  </section>
+</div>
+
+<!-- Edit profile modal -->
+<div class="backdrop" id="editBackdrop" hidden>
+  <section class="modal card" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+    <button class="close" id="closeEdit">×</button>
+    <div class="modal-logo">✎</div>
+    <h2 id="editTitle">Make it yours</h2>
+    <p class="muted">A little update helps people get to know you.</p>
+
+    <form id="editForm">
+      <div class="field">
+        <label for="editName">Display name</label>
+        <input id="editName" maxlength="50" required>
+      </div>
+
+      <div class="field">
+        <label for="editBio">Bio</label>
+        <textarea id="editBio" maxlength="180" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="editAvatarFile">Profile photo</label>
+        <input id="editAvatarFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+        <small class="field-help">Choose an image from your device (max 5 MB). Leave empty to keep your current photo.</small>
+        <input id="editAvatar" type="hidden">
+      </div>
+
+      <p id="editError" class="error" hidden></p>
+      <button class="primary wide">Save changes ✓</button>
+    </form>
+  </section>
+</div>
+
+</body>
+</html>
